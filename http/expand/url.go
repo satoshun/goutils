@@ -12,8 +12,9 @@ func Get(url string) (string, error) {
 	}
 	defer resp.Body.Close()
 
+	// redirect
 	if location, err := resp.Location(); err == nil && location != nil && resp.StatusCode/100 == 3 {
-		return location.String(), nil
+		return Get(location.String())
 	}
 
 	if resp.Request != nil {
