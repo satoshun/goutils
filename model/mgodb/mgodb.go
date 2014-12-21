@@ -8,6 +8,7 @@ var (
 	session *mgo.Session
 	dbname  string
 	url     string
+	db      *mgo.Database
 )
 
 type Config struct {
@@ -21,7 +22,11 @@ func GetCollection(colName string) *mgo.Collection {
 }
 
 func GetDB() *mgo.Database {
-	return session.DB(dbname)
+	if db == nil {
+		db = session.DB(dbname)
+	}
+
+	return db
 }
 
 func setSession(debug bool) {
